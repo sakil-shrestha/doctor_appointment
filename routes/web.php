@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,11 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+// doctor routes
+Route::middleware('auth')->prefix('doctors')->group(function()
+{
+    Route::get('/',[DoctorController::class,'index'])->name('doctor.index');
+    Route::get('/create',[DoctorController::class,'create'])->name('doctor.create');
+});

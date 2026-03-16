@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('specialization');
-            $table->text('bio')->nullable();
             $table->string('contact');
+            $table->string('specialization');
+            $table->integer('experience_years')->unsigned()->nullable();
+            $table->text('bio')->nullable();
+            $table->string('profile_image')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
