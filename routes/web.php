@@ -28,4 +28,9 @@ Route::middleware('auth')->prefix('doctors')->group(function()
 {
     Route::get('/',[DoctorController::class,'index'])->name('doctor.index');
     Route::get('/create',[DoctorController::class,'create'])->name('doctor.create');
+    Route::post('/store',[DoctorController::class,'store'])->name('doctor.store');
+    Route::get('edit/{id}',[DoctorController::class,'edit'])->name('doctor.edit');
+    Route::put('update/{id}',[DoctorController::class,'update'])->name('doctor.update');
+    Route::delete('delete/{id}',[DoctorController::class,'destroy'])->name('doctor.destroy');
 });
+

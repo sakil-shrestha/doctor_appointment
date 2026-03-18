@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header flex justify-content-between">
                     <h4>Multi Select</h4>
-                    <a href="{{route('doctor.create')}}" class="btn btn-primary ">+ Add New</a>
+                    <a href="{{ route('doctor.create') }}" class="btn btn-primary ">+ Add New</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -19,113 +19,54 @@
                                             <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </th>
-                                    <th>Task Name</th>
-                                    <th>Progress</th>
-                                    <th>Members</th>
-                                    <th>Due Date</th>
-                                    <th>Status</th>
+                                    <th>Full Name</th>
+                                    <th>Contact</th>
+                                    <th>Specialization</th>
+                                    <th>Bio</th>
+                                    <th>Profile Image</th>
+                                    <th>Experience</th>
+                                    <th>status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center pt-2">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup"
-                                                class="custom-control-input" id="checkbox-1">
-                                            <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td>Create a mobile app</td>
-                                    <td class="align-middle">
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar width-per-70"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img alt="image" src="assets/img/users/user-5.png" width="35">
-                                    </td>
-                                    <td>2018-01-20</td>
-                                    <td>
-                                        <div class="badge badge-success badge-shadow">Completed</div>
-                                    </td>
-                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center pt-2">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup"
-                                                class="custom-control-input" id="checkbox-2">
-                                            <label for="checkbox-2" class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td>Redesign homepage</td>
-                                    <td class="align-middle">
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar width-per-60"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img alt="image" src="assets/img/users/user-1.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-3.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-4.png" width="35">
-                                    </td>
-                                    <td>2018-04-10</td>
-                                    <td>
-                                        <div class="badge badge-info badge-shadow">Todo</div>
-                                    </td>
-                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center pt-2">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup"
-                                                class="custom-control-input" id="checkbox-3">
-                                            <label for="checkbox-3" class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td>Backup database</td>
-                                    <td class="align-middle">
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-warning width-per-70"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img alt="image" src="assets/img/users/user-1.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-2.png" width="35">
-                                    </td>
-                                    <td>2018-01-29</td>
-                                    <td>
-                                        <div class="badge badge-warning badge-shadow">In Progress</div>
-                                    </td>
-                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center pt-2">
-                                        <div class="custom-checkbox custom-control">
-                                            <input type="checkbox" data-checkboxes="mygroup"
-                                                class="custom-control-input" id="checkbox-4">
-                                            <label for="checkbox-4" class="custom-control-label">&nbsp;</label>
-                                        </div>
-                                    </td>
-                                    <td>Input data</td>
-                                    <td class="align-middle">
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-success width-per-40"></div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img alt="image" src="assets/img/users/user-2.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-5.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-4.png" width="35">
-                                        <img alt="image" src="assets/img/users/user-1.png" width="35">
-                                    </td>
-                                    <td>2018-01-16</td>
-                                    <td>
-                                        <div class="badge badge-success badge-shadow">Completed</div>
-                                    </td>
-                                    <td><a href="#" class="btn btn-primary">Detail</a></td>
-                                </tr>
+
+                                @foreach ($doctors as $doctor)
+                                    <tr>
+                                        <td class="text-center pt-2">
+                                            <div class="custom-checkbox custom-control">
+                                                <input type="checkbox" data-checkboxes="mygroup"
+                                                    class="custom-control-input" id="checkbox-1">
+                                                <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>{{ $doctor->user->name }}</td>
+                                        <td>{{ $doctor->contact }}</td>
+                                        <td>{{ $doctor->specialization }}</td>
+                                        <td>
+                                            <div class="bio-content text-truncate" style="max-width: 200px;">
+                                                {!! $doctor->bio !!}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img alt="image" src="{{ $doctor->profile_image }}" width="35">
+                                        </td>
+                                        <td>{{ $doctor->experience_years }} years</td>
+                                        <td>
+                                            <div class="badge badge-success badge-shadow">{{ $doctor->status }}</div>
+                                        </td>
+                                        <td>
+                                            <a href="{{route('doctor.edit',$doctor->id)}}" class="btn btn-primary">Edit</a>
+                                            <form action="{{route('doctor.destroy',$doctor->id)}}" method='POST' style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
                             </tbody>
                         </table>
                     </div>

@@ -17,6 +17,17 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel='shortcut icon' type='image/x-icon' href='{{ asset('assets/img/favicon.ico') }}' />
     <link rel="stylesheet" href="{{ asset('assets/bundles/summernote/summernote-bs4.css') }}">
+
+<style>
+    .bio-content p {
+    margin: 0;
+}
+
+.bio-content * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+</style>
 </head>
 
 <body>
