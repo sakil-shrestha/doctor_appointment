@@ -31,7 +31,9 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($doctors as $doctor)
+                                @foreach ($doctors as $user)
+
+
                                     <tr>
                                         <td class="text-center pt-2">
                                             <div class="custom-checkbox custom-control">
@@ -40,30 +42,31 @@
                                                 <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
                                             </div>
                                         </td>
-                                        <td>{{ $doctor->user->name }}</td>
-                                        <td>{{ $doctor->contact }}</td>
-                                        <td>{{ $doctor->specialization }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->doctor?->contact?? 'N/A' }}</td>
+                                        <td>{{ $user->doctor?->specialization ?? 'N/A' }}</td>
                                         <td>
                                             <div class="bio-content text-truncate" style="max-width: 200px;">
-                                                {!! $doctor->bio !!}
+                                                {!! $user->doctor?->bio !!}
                                             </div>
                                         </td>
                                         <td>
-                                            <img alt="image" src="{{ $doctor->profile_image }}" width="35">
+                                            <img alt="image" src="{{ $user->doctor?->profile_image }}" width="35">
                                         </td>
-                                        <td>{{ $doctor->experience_years }} years</td>
+                                        <td>{{ $user->doctor?->experience_years ?? 'N/A' }} years</td>
                                         <td>
-                                            <div class="badge badge-success badge-shadow">{{ $doctor->status }}</div>
+                                            <div class="badge badge-success badge-shadow">{{ $user->doctor?->status ?? 'N/A' }}</div>
                                         </td>
                                         <td>
-                                            <a href="{{route('doctor.edit',$doctor->id)}}" class="btn btn-primary">Edit</a>
-                                            <form action="{{route('doctor.destroy',$doctor->id)}}" method='POST' style="display: inline;">
+                                            <a href="{{route('doctor.edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                            <form action="{{route('doctor.destroy',$user->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
+
                                 @endforeach
 
 

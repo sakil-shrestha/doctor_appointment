@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,5 +33,16 @@ Route::middleware('auth')->prefix('doctors')->group(function()
     Route::get('edit/{id}',[DoctorController::class,'edit'])->name('doctor.edit');
     Route::put('update/{id}',[DoctorController::class,'update'])->name('doctor.update');
     Route::delete('delete/{id}',[DoctorController::class,'destroy'])->name('doctor.destroy');
+});
+
+// schedule routes
+Route::middleware('auth')->prefix('schedules')->group(function()
+{
+    Route::get('/',[ScheduleController::class,'index'])->name('schedule.index');
+    Route::get('/create',[ScheduleController::class,'create'])->name('schedule.create');
+    Route::post('/store',[ScheduleController::class,'store'])->name('schedule.store');
+    Route::get('edit/{id}',[ScheduleController::class,'edit'])->name('schedule.edit');
+    Route::put('update/{id}',[ScheduleController::class,'update'])->name('schedule.update');
+    Route::delete('delete/{id}',[ScheduleController::class,'destroy'])->name('schedule.destroy');
 });
 

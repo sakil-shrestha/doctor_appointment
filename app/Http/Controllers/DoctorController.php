@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,7 +11,8 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors=Doctor::all();
+        $doctors = User::where('role', 'doctor')->with('doctor')->get();
+
         return view('doctor.index', compact('doctors'));
     }
 
@@ -22,10 +24,10 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'specialization'=>'required',
-            'bio'=>'required',
-            'experience_year'=>'required|integer',
-           'contact' => ['required', 'regex:/^(98|97)\d{8}$/'],
+            'specialization' => 'required',
+            'bio' => 'required',
+            'experience_year' => 'required|integer',
+            'contact' => ['required', 'regex:/^(98|97)\d{8}$/'],
         ]);
 
         // $doctor=Doctor::Create([
@@ -34,67 +36,69 @@ class DoctorController extends Controller
         // ]);
 
 
-        $doctor=new Doctor();
-        $doctor->user_id=Auth::user()->id;
-        $doctor->contact=$request->contact;
-        $doctor->specialization=$request->specialization;
-        $doctor->bio=$request->bio;
-        $doctor->experience_years=$request->experience_year;
+        $doctor = new Doctor();
+        $doctor->user_id = Auth::user()->id;
+        $doctor->contact = $request->contact;
+        $doctor->specialization = $request->specialization;
+        $doctor->bio = $request->bio;
+        $doctor->experience_years = $request->experience_year;
 
-        $file=$request->profile_image;
-        if($file)
-            {
-                $filename=time().'.'.$file->getClientOriginalExtension();
-                $file->move('image',$filename);
-                $doctor->profile_image='image/'.$filename;
-            }
+        $file = $request->profile_image;
+        if ($file) {
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move('image', $filename);
+            $doctor->profile_image = 'image/' . $filename;
+        }
 
-            $doctor->save();
-            return redirect()->route('doctor.index')->with('success','Doctor Profile created successfully');
+        $doctor->save();
+        return redirect()->route('doctor.index')->with('success', 'Doctor Profile created successfully');
     }
 
     public function edit($id)
     {
-        $doctor=Doctor::find($id);
-        return view('doctor.edit',compact('doctor'));
+        $user = User::with('doctor')->find($id);
+
+        if (!$user->doctor) {
+            $doctor = Doctor::create(['user_id' => $id]);
+        }
+        else{
+            $doctor=$user->doctor;
+        }
+
+        return view('doctor.edit', compact('doctor'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'specialization'=>'required',
-            'bio'=>'required',
+            'specialization' => 'required',
+            'bio' => 'required',
             'contact' => ['required', 'regex:/^(98|97)\d{8}$/'],
-            'experience_year'=>'required|integer'
+            'experience_year' => 'required|integer'
         ]);
 
-        $doctor=Doctor::find($id);
-        $doctor->user_id=Auth::user()->id;
-        $doctor->contact=$request->contact;
-        $doctor->specialization=$request->specialization;
-        $doctor->bio=$request->bio;
-        $doctor->experience_years=$request->experience_year;
+        $doctor = Doctor::find($id);
+        $doctor->contact = $request->contact;
+        $doctor->specialization = $request->specialization;
+        $doctor->bio = $request->bio;
+        $doctor->experience_years = $request->experience_year;
 
-        $file=$request->profile_image;
-        if($file)
-            {
-                $filename=time().'.'.$file->getClientOriginalExtension();
-                $file->move('image',$filename);
-                $doctor->profile_image='image/'.$filename;
-            }
+        $file = $request->profile_image;
+        if ($file) {
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move('image', $filename);
+            $doctor->profile_image = 'image/' . $filename;
+        }
 
-            $doctor->save();
-            return redirect()->route('doctor.index')->with('success','Doctor Profile updated successfully');
+        $doctor->save();
+        return redirect()->route('doctor.index')->with('success', 'Doctor Profile updated successfully');
     }
 
     public function destroy($id)
     {
-        $doctor=Doctor::find($id);
-        if($doctor->profile_image)
-            {
-                unlink($doctor->profile_image);
-            }
-        $doctor->delete();
-        return redirect()->route('doctor.index')->with('success','Doctor Profile deleted successfully');
+        $user=User::with('doctor')->find($id);
+
+        $user->delete();
+        return redirect()->route('doctor.index')->with('success', 'Doctor Profile deleted successfully');
     }
 }

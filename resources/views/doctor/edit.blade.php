@@ -13,33 +13,38 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Full Name</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control" name="name" value="{{ Auth::user()->name }}" >
+                                <input type="text" class="form-control" name="name" value="{{ $doctor->user->name }}" >
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Contact Number</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control" name="contact" value="{{ $doctor->contact }}">
+                                <input type="text" class="form-control" name="contact" >
+                                <span class="text-danger">{{ $errors->first('contact') }}</span>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Specialization</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control" name="specialization" value="{{ $doctor->specialization }}">
+                                <input type="text" class="form-control" name="specialization" >
+                                <span class="text-danger">{{ $errors->first('specialization') }}</span>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Experience
                                 Years</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control" name="experience_year" value="{{ $doctor->experience_years }}">
+                                <input type="text" class="form-control" name="experience_year" >
+                                <span class="text-danger">{{ $errors->first('experience_year') }}</span>
                             </div>
                         </div>
 
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Add Your Bio</label>
                             <div class="col-sm-12 col-md-7">
-                                <textarea class="summernote" name="bio">{{ $doctor->bio }}</textarea>
+                                <textarea class="summernote" name="bio"></textarea>
+                                <span class="text-danger">{{ $errors->first('bio') }}</span>
                             </div>
                         </div>
 
@@ -47,7 +52,8 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Add Your Profile
                                 Image</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="file" class="form-control" name="profile_image" value="">
+                                <input type="file" class="form-control" name="profile_image">
+                                <span class="text-danger">{{ $errors->first('profile_image') }}</span>
                             </div>
                         </div>
                         <div class="form-group row mb-4">

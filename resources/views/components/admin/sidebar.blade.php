@@ -21,7 +21,7 @@
                 <a href="#" class="nav-link"><i data-feather="calendar"></i><span>Appontments</span></a>
             </li>
             <li>
-                <a href="#" class="nav-link"><i data-feather="clock"></i><span>Schedules</span></a>
+                <a href="{{route('schedule.index')}}" class="nav-link {{Route::is('schedule.*')? 'active': ''}}"><i data-feather="clock"></i><span>Schedules</span></a>
             </li>
             <li>
                 <a href="#" class="nav-link"><i data-feather="coffee"></i><span>Medicine</span></a>
