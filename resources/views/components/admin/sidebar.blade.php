@@ -14,11 +14,11 @@
             <li class="{{Route::is('doctor.*')? 'active': ''}}">
                 <a href="{{route('doctor.index')}}" class="nav-link "><i data-feather="user"></i><span>Specialities</span></a>
             </li>
-            <li>
-                <a href="#" class="nav-link"><i data-feather="users"></i><span>Patients</span></a>
+            <li class="{{Route::is('patient.*')?'active':''}}">
+                <a href="{{route('patient.index')}}" class="nav-link"><i data-feather="users"></i><span>Patients</span></a>
             </li>
-            <li>
-                <a href="#" class="nav-link"><i data-feather="calendar"></i><span>Appontments</span></a>
+            <li class="{{Route::is('appointment.*')? 'active': ''}}">
+                <a href="{{route('appointment.index')}}" class="nav-link"><i data-feather="calendar"></i><span>Appontments</span></a>
             </li>
             <li>
                 <a href="{{route('schedule.index')}}" class="nav-link {{Route::is('schedule.*')? 'active': ''}}"><i data-feather="clock"></i><span>Schedules</span></a>
