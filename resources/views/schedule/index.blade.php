@@ -19,19 +19,17 @@
                                             <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                                         </div>
                                     </th>
-                                    <th>Full Name</th>
-                                    <th>Contact</th>
-                                    <th>Specialization</th>
-                                    <th>Bio</th>
-                                    <th>Profile Image</th>
-                                    <th>Experience</th>
-                                    <th>status</th>
+                                    <th>Doctor Name</th>
+                                    <th>Week Day</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
 
-                                {{-- @foreach ($doctors as $doctor)
+                                @foreach ($schedules as $schedule)
+
                                     <tr>
                                         <td class="text-center pt-2">
                                             <div class="custom-checkbox custom-control">
@@ -40,31 +38,21 @@
                                                 <label for="checkbox-1" class="custom-control-label">&nbsp;</label>
                                             </div>
                                         </td>
-                                        <td>{{ $doctor->user->name }}</td>
-                                        <td>{{ $doctor->contact }}</td>
-                                        <td>{{ $doctor->specialization }}</td>
+                                        <td>{{ $schedule->doctor->user->name }}</td>
+                                        <td>{{ $schedule->day }}</td>
+                                        <td>{{ $schedule->start_time }}</td>
+                                        <td>{{ $schedule->end_time }}</td>
+
                                         <td>
-                                            <div class="bio-content text-truncate" style="max-width: 200px;">
-                                                {!! $doctor->bio !!}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <img alt="image" src="{{ $doctor->profile_image }}" width="35">
-                                        </td>
-                                        <td>{{ $doctor->experience_years }} years</td>
-                                        <td>
-                                            <div class="badge badge-success badge-shadow">{{ $doctor->status }}</div>
-                                        </td>
-                                        <td>
-                                            <a href="{{route('doctor.edit',$doctor->id)}}" class="btn btn-primary">Edit</a>
-                                            <form action="{{route('doctor.destroy',$doctor->id)}}" method='POST' style="display: inline;">
+                                            <a href="{{route('schedule.edit',$schedule->id)}}" class="btn btn-primary">Edit</a>
+                                            <form action="{{route('schedule.destroy',$schedule->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
 
 
                             </tbody>

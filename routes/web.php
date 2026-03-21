@@ -29,6 +29,7 @@ require __DIR__.'/auth.php';
 
 //home route
 Route::get('/',[HomeController::class,'home'])->name('home');
+Route::get('/doctor-profile/{id}',[HomeController::class,'doctor_profile'])->name('doctor_profile');
 
 
 // doctor routes
