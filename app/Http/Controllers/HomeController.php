@@ -19,7 +19,10 @@ class HomeController extends Controller
 
     public function doctor_profile($id)
     {
-        $doctor = Doctor::with('user')->findOrFail($id);
+        $doctor = Doctor::with('user','schedules')->findOrFail($id);
+
         return view('frontend.doctor-profile', compact('doctor'));
     }
+
+
 }
