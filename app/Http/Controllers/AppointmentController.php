@@ -13,7 +13,8 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        return view('appointment.index');
+        $appointments=Appointment::all();
+        return view('appointment.index',compact('appointments'));
     }
 
 
@@ -23,7 +24,7 @@ class AppointmentController extends Controller
         $date = $request->date;
         $doctorId = $request->doctor_id;
 
-        
+
 
         // Convert date → day (Mon, Tue, etc.)
         $day = Carbon::parse($date)->format('D');
@@ -92,4 +93,11 @@ class AppointmentController extends Controller
 
         return back()->with('success', 'Appointment booked successfully');
     }
+
+    public function updateStatus($id)
+    {
+        return $id;
+    }
+
+
 }

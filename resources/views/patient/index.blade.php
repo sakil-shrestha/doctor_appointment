@@ -4,8 +4,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
-                    <a href="{{ route('patient.create') }}" class="btn btn-primary ">+ Add New</a>
+                    <h4>Patient Information</h4>
+                    {{-- <a href="{{ route('patient.create') }}" class="btn btn-primary ">+ Add New</a> --}}
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

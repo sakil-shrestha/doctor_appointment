@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Appointment;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class DashboardController extends Controller
+{
+     public function dashboard()
+    {
+        $patients=User::where('role','patient')->get();
+        $doctors=User::where('role','doctor')->get();
+        $booked=Appointment::all();
+        return view('admin.dashboard',compact('patients','doctors','booked'));
+    }
+}
