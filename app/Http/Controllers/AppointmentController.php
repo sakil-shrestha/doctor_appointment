@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BookEvent;
+use App\Mail\BookingNotification;
+use App\Mail\DoctorBooking;
 use App\Models\Appointment;
+use App\Models\Doctor;
 use App\Models\Schedule;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments=Appointment::all();
-        return view('appointment.index',compact('appointments'));
+        $appointments = Appointment::all();
+        return view('appointment.index', compact('appointments'));
     }
 
 
@@ -23,6 +29,8 @@ class AppointmentController extends Controller
     {
         $date = $request->date;
         $doctorId = $request->doctor_id;
+
+
 
 
 
@@ -59,8 +67,6 @@ class AppointmentController extends Controller
         $availableSlots = array_values(array_diff($slots, $booked));
 
         return response()->json($availableSlots);
-
-
     }
 
     // 2. STORE APPOINTMENT
@@ -82,8 +88,15 @@ class AppointmentController extends Controller
             return back()->with('error', 'This slot is already booked');
         }
 
+        // this is error. we have to use with at first
+        // $doctor = Doctor::findOrFail($request->doctor_id)->with('user');
+        $doctor = Doctor::with('user')->findOrFail($request->doctor_id);
+
+
+        $patient = User::findOrFail(Auth::user()->id);
+
         // Store appointment
-        Appointment::create([
+        $appointment = Appointment::create([
             'patient_id' => Auth::user()->id,
             'doctor_id' => $request->doctor_id,
             'appointment_date' => $request->appointment_date,
@@ -91,6 +104,10 @@ class AppointmentController extends Controller
             'status' => 'pending'
         ]);
 
+
+
+
+        event(new BookEvent($appointment, $doctor, $patient));
         return back()->with('success', 'Appointment booked successfully');
     }
 
@@ -98,6 +115,4 @@ class AppointmentController extends Controller
     {
         return $id;
     }
-
-
 }
