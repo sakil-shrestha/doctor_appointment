@@ -47,7 +47,8 @@
 
                                         <td>
 
-                                            <select class="status-dropdown" data-id="{{ $appointment->id }}">
+                                            <select class="status-dropdown" data-id="{{ $appointment->id }}"
+                                                onchange="updateStatus(this, {{ $appointment->id }})">
                                                 <option value="pending"
                                                     {{ $appointment->status == 'pending' ? 'selected' : '' }}>Pending
                                                 </option>
@@ -57,9 +58,9 @@
                                                 <option value="completed"
                                                     {{ $appointment->status == 'completed' ? 'selected' : '' }}>
                                                     Completed</option>
-                                                <option value="canceled"
-                                                    {{ $appointment->status == 'canceled' ? 'selected' : '' }}>Canceled
-                                                </option>
+                                                <option value="cancelled"
+                                                    {{ $appointment->status == 'cancelled' ? 'selected' : '' }}>
+                                                    Cancelled</option>
                                             </select>
 
                                         </td>
@@ -89,34 +90,20 @@
 
 
     <script>
-        document.querySelectorAll('.status-dropdown').forEach(function(select) {
-            select.addEventListener('change', function() {
-
-                let appointmentId = this.getAttribute('data-id');
-                let status = this.value;
-
-                fetch(`/appointments/${appointmentId}/status`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            status: status
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-
-                        // Optional: show success message
-                        alert('Status updated successfully');
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-
-            });
-        });
+        function updateStatus(select, id) {
+            fetch(`/appointments/${id}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({
+                        status: select.value
+                    }),
+                })
+                .then(res => res.json())
+                .then(data => alert(data.message))
+                .catch(() => alert('Failed to update status.'));
+        }
     </script>
 </x-layout.admin>

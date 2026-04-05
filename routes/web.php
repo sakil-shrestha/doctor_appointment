@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/get-slots', [AppointmentController::class, 'getSlots']);
     Route::post('/book', [AppointmentController::class, 'store'])->name('appointment.store');
-    Route::put('/appointments/{id}/status', [AppointmentController::class, 'updateStatus']);
+    Route::patch('/appointments/{id}/status', [AppointmentController::class, 'updateStatus']);
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\BookEvent;
 use App\Mail\BookingNotification;
 use App\Mail\DoctorBooking;
+use App\Mail\StatusUpdatedNotification;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Schedule;
@@ -111,8 +112,17 @@ class AppointmentController extends Controller
         return back()->with('success', 'Appointment booked successfully');
     }
 
-    public function updateStatus($id)
+    public function updateStatus(Request $request,$id)
     {
-        return $id;
+        $request->validate([
+            "status" => "required|in:pending,confirmed,completed,cancelled"
+        ]);
+
+        $appointment=Appointment::findOrFail($id);
+        $appointment->update(['status'=>$request->status]);
+        // return $appointment->patient;
+        Mail::to($appointment->patient->email)->send(new StatusUpdatedNotification($appointment));
+
+        return response()->json(['message' => 'Status updated']);
     }
 }
