@@ -120,7 +120,6 @@ class AppointmentController extends Controller
 
         $appointment=Appointment::findOrFail($id);
         $appointment->update(['status'=>$request->status]);
-        // return $appointment->patient;
         Mail::to($appointment->patient->email)->send(new StatusUpdatedNotification($appointment));
 
         return response()->json(['message' => 'Status updated']);

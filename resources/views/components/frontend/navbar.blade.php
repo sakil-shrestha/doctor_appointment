@@ -21,24 +21,27 @@
 
             @guest
 
-            <a href="/login"
-                class="px-5 py-2 border border-emerald-500 rounded-lg text-emerald-600 hover:bg-emerald-500 hover:text-white transition">
+                <a href="/login"
+                    class="px-5 py-2 border border-emerald-500 rounded-lg text-emerald-600 hover:bg-emerald-500 hover:text-white transition">
 
-                Login
-            </a>
+                    Login
+                </a>
 
-            <a href="/register"
-                class="px-5 py-2 bg-emerald-500 rounded-lg text-white shadow hover:bg-emerald-600 transition">
+                <a href="/register"
+                    class="px-5 py-2 bg-emerald-500 rounded-lg text-white shadow hover:bg-emerald-600 transition">
 
-                Register
-            </a>
+                    Register
+                </a>
             @endguest
             @auth
-                <a href="/logout"
-                class="px-5 py-2 bg-emerald-500 rounded-lg text-white shadow hover:bg-emerald-600 transition">
 
-                Log Out
-            </a>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="px-5 py-2 bg-emerald-500 rounded-lg text-white shadow hover:bg-emerald-600 transition">
+                        Log Out
+                    </button>
+                </form>
             @endauth
 
         </div>

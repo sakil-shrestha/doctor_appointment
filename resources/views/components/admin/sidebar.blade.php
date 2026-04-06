@@ -39,7 +39,7 @@
                 <a href="#" class="nav-link"><i data-feather="settings"></i><span>Settings</span></a>
             </li>
             <li>
-                <a href="#" class="nav-link"><i data-feather="user"></i><span>Profile Management</span></a>
+                <a href="{{route('profile.edit')}}" class="nav-link {{Route::is('profile')? 'active': ''}}"><i data-feather="user"></i><span>Profile Management</span></a>
             </li>
 
 
