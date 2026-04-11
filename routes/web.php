@@ -4,9 +4,11 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +33,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/book', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::patch('/appointments/{id}/status', [AppointmentController::class, 'updateStatus']);
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+
+
+    // *******permissions*********
+    Route::get('/permissions',[PermissionController::class,'index'])->name('permissions.index');
+    Route::get('/permissions/create',[PermissionController::class,'create'])->name('permissions.create');
+    Route::post('/permissions/store',[PermissionController::class,'store'])->name('permissions.store');
+    Route::get('/permissions/{id}/edit',[PermissionController::class,'edit'])->name('permissions.edit');
+    Route::put('/permissions/{id}',[PermissionController::class,'update'])->name('permissions.update');
+    Route::delete('/permissions/{id}',[PermissionController::class,'destroy'])->name('permissions.destroy');
+
+
+    // *******roles*********
+    Route::get('/roles',[RolesController::class,'index'])->name('roles.index');
+    Route::get('/roles/create',[RolesController::class,'create'])->name('roles.create');
 });
 
 require __DIR__ . '/auth.php';

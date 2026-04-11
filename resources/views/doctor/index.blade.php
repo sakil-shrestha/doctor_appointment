@@ -4,7 +4,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
+                    <h4>Doctor Management</h4>
                     <a href="{{ route('doctor.create') }}" class="btn btn-primary ">+ Add New</a>
                 </div>
                 <div class="card-body">
