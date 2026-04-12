@@ -37,17 +37,21 @@ Route::middleware('auth')->group(function () {
 
 
     // *******permissions*********
-    Route::get('/permissions',[PermissionController::class,'index'])->name('permissions.index');
-    Route::get('/permissions/create',[PermissionController::class,'create'])->name('permissions.create');
-    Route::post('/permissions/store',[PermissionController::class,'store'])->name('permissions.store');
-    Route::get('/permissions/{id}/edit',[PermissionController::class,'edit'])->name('permissions.edit');
-    Route::put('/permissions/{id}',[PermissionController::class,'update'])->name('permissions.update');
-    Route::delete('/permissions/{id}',[PermissionController::class,'destroy'])->name('permissions.destroy');
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+    Route::post('/permissions/store', [PermissionController::class, 'store'])->name('permissions.store');
+    Route::get('/permissions/{id}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::put('/permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::delete('/permissions/{id}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 
 
     // *******roles*********
-    Route::get('/roles',[RolesController::class,'index'])->name('roles.index');
-    Route::get('/roles/create',[RolesController::class,'create'])->name('roles.create');
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+    Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{id}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('/roles/{id}', [RolesController::class, 'update'])->name('roles.update');
+    Route::delete('/roles/{id}', [RolesController::class, 'destroy'])->name('roles.destroy');
 });
 
 require __DIR__ . '/auth.php';

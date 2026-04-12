@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="#" method="POST" >
+                    <form action="{{route('roles.store')}}" method="POST">
                         @csrf
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Roles Name</label>
@@ -15,6 +15,22 @@
                                 <input type="text" class="form-control" name="name">
                             </div>
                             <span class="text-danger">{{ $errors->first('name') }}</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-3">
+                            @isset($permissions)
+                                @foreach ($permissions as $permission)
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="perm-{{ $permission->id }}" name="permission[]"
+                                            value="{{ $permission->name }}"
+                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                        <label for="perm-{{ $permission->id }}"
+                                            class="text-sm font-medium text-gray-700 cursor-pointer">
+                                            {{ $permission->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @endisset
                         </div>
 
 
