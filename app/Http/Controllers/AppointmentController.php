@@ -13,11 +13,25 @@ use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class AppointmentController extends Controller
+class AppointmentController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+
+            new Middleware('permission:view appointment', only: ['index']),
+            new Middleware('permission:create appointment', only: ['create']),
+            new Middleware('permission:edit appointment', only: ['edit']),
+            new Middleware('permission:delete appointment', only: ['destroy']),
+
+        ];
+    }
     public function index()
     {
         $appointments = Appointment::all();
@@ -112,14 +126,14 @@ class AppointmentController extends Controller
         return back()->with('success', 'Appointment booked successfully');
     }
 
-    public function updateStatus(Request $request,$id)
+    public function updateStatus(Request $request, $id)
     {
         $request->validate([
             "status" => "required|in:pending,confirmed,completed,cancelled"
         ]);
 
-        $appointment=Appointment::findOrFail($id);
-        $appointment->update(['status'=>$request->status]);
+        $appointment = Appointment::findOrFail($id);
+        $appointment->update(['status' => $request->status]);
         Mail::to($appointment->patient->email)->send(new StatusUpdatedNotification($appointment));
 
         return response()->json(['message' => 'Status updated']);

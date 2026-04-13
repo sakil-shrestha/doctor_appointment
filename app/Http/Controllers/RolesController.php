@@ -3,15 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // public static function middleware(): array
+    // {
+    //     return [
+
+    //         new Middleware('permission:view role', only: ['index']),
+    //         new Middleware('permission:create role', only: ['create']),
+    //         new Middleware('permission:edit role', only: ['edit']),
+    //         new Middleware('permission:delete role', only: ['destroy']),
+
+    //     ];
+    // }
     public function index()
     {
         $roles=Role::orderBy('name','asc')->get();
@@ -83,7 +94,7 @@ class RolesController extends Controller
     public function update(Request $request, string $id)
     {
          $validator=Validator::make($request->all(),[
-            'name'=>'required|unique:roles'
+            'name'=>'required|unique:roles,name,'.$id
         ]);
         $role=Role::findOrFail($id);
 

@@ -5,9 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ScheduleController extends Controller
+class ScheduleController extends Controller implements HasMiddleware
 {
+     public static function middleware(): array
+    {
+        return [
+
+            new Middleware('permission:view appointment', only: ['index']),
+            new Middleware('permission:create appointment', only: ['create']),
+            new Middleware('permission:edit appointment', only: ['edit']),
+            new Middleware('permission:delete appointment', only: ['destroy']),
+
+        ];
+    }
     public function index()
     {
         $schedules=Schedule::with('doctor.user')->get();

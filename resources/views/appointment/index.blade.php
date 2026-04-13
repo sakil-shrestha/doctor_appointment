@@ -65,8 +65,13 @@
 
                                         </td>
                                         <td>
+                                            @can('edit appointment')
                                             <a href="{{ route('appointment.edit', $appointment->id) }}"
                                                 class="btn btn-primary">Edit</a>
+                                                @endcan
+
+                                            @can('delete appointment')
+
                                             <form action="{{ route('appointment.destroy', $appointment->id) }}"
                                                 method='POST' style="display: inline;">
                                                 @csrf
@@ -74,6 +79,7 @@
                                                 <button type="submit" class="btn btn-danger"
                                                     onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
