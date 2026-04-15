@@ -11,7 +11,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = User::where('role', 'doctor')->with('doctor')->get();
+        $doctors = User::role('doctor')->with('doctor')->get();
 
         return view('doctor.index', compact('doctors'));
     }

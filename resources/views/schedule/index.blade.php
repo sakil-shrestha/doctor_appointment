@@ -4,8 +4,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
+                    <h4>Schedule Management</h4>
+                    @can('create schedule')
                     <a href="{{ route('schedule.create') }}" class="btn btn-primary ">+ Add New</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -44,12 +46,16 @@
                                         <td>{{ $schedule->end_time }}</td>
 
                                         <td>
+                                            @can('edit schedule')
                                             <a href="{{route('schedule.edit',$schedule->id)}}" class="btn btn-primary">Edit</a>
+                                            @endcan
+                                            @can('delete schedule')
                                             <form action="{{route('schedule.destroy',$schedule->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

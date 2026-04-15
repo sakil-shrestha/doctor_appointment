@@ -11,8 +11,7 @@ class HomeController extends Controller
     public function home()
     {
 
-        $doctors = User::where('role', 'doctor')->with('doctor')->get();
-
+        $doctors = User::role('doctor')->get();
 
         return view('frontend.home', compact('doctors'));
     }

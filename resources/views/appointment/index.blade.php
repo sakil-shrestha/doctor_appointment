@@ -4,8 +4,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
+                    <h4>Appointment Information</h4>
+                    @can('create appointment')
                     <a href="{{ route('appointment.create') }}" class="btn btn-primary ">+ Add New</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

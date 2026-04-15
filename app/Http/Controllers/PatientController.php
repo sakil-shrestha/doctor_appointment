@@ -25,7 +25,7 @@ class PatientController extends Controller implements HasMiddleware
     public function index()
     {
 
-        $patients = User::where('role', 'patient')->get();
+        $patients = User::role('patient')->get();
         return view('patient.index', compact('patients'));
     }
 

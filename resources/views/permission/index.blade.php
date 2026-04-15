@@ -5,7 +5,9 @@
             <div class="card">
                 <div class="card-header flex justify-content-between">
                     <h4>Permission Management</h4>
+                    @can('create permission')
                     <a href="{{ route('permissions.create') }}" class="btn btn-primary ">+ Add New</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -41,12 +43,16 @@
                                         <td>{{ $permission->created_at->diffForHumans() }}</td>
 
                                         <td>
+                                            @can('edit permission')
                                             <a href="{{route('permissions.edit',$permission->id)}}" class="btn btn-primary">Edit</a>
+                                            @endcan
+                                            @can('delete permission')
                                             <form action="{{route('permissions.destroy',$permission->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
 

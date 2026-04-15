@@ -5,7 +5,7 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
         <h1 class="text-2xl font-bold text-emerald-600">
-            Mediverse
+            Clinic Nepal
         </h1>
 
         <div class="hidden md:flex gap-10 text-sm font-medium">

@@ -40,12 +40,16 @@
                                         <td>{{ $patient->email }}</td>
 
                                         <td>
+                                            @can('edit patient')
                                             <a href="{{route('patient.edit',$patient->id)}}" class="btn btn-primary">Edit</a>
+                                            @endcan
+                                            @can('delete patient')
                                             <form action="{{route('patient.destroy',$patient->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

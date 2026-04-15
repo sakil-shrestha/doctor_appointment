@@ -10,9 +10,11 @@ class DashboardController extends Controller
 {
      public function dashboard()
     {
-        $patients=User::where('role','patient')->get();
-        $doctors=User::where('role','doctor')->get();
-        $booked=Appointment::all();
+        // $patients=User::with('roles')->where('name','patient')->get();
+        // dd($patients);
+        $patients=User::role('patient')->get();
+        $doctors=User::role('doctor')->get()
+    ;    $booked=Appointment::all();
         return view('admin.dashboard',compact('patients','doctors','booked'));
     }
 }
