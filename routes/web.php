@@ -23,6 +23,8 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware('role:admin|Super Admin')->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,7 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/get-slots', [AppointmentController::class, 'getSlots']);
     Route::post('/book', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::patch('/appointments/{id}/status', [AppointmentController::class, 'updateStatus']);
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
 

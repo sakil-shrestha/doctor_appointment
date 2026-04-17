@@ -42,10 +42,11 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('patient');
         event(new Registered($user));
 
         Auth::login($user);
-        if($user->hasRole('admin'))
+        if($user->hasRole('admin')||$user->hasRole('super admin'))
             {
                 return redirect(route('dashboard', absolute: false));
             }

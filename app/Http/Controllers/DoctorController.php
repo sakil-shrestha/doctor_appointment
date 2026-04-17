@@ -6,12 +6,21 @@ use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class DoctorController extends Controller
 {
     public function index()
     {
-        $doctors = User::role('doctor')->with('doctor')->get();
+        $doctorExist=Role::where('name','doctor')->exists();
+        if($doctorExist)
+            {
+
+                $doctors = User::role('doctor')->with('doctor')->get();
+            }
+            else{
+                $doctors=collect();
+            }
 
         return view('doctor.index', compact('doctors'));
     }
