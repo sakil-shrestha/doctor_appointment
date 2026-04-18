@@ -4,8 +4,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Roles Management</h4>
-                    {{-- <a href="{{ route('roles.create') }}" class="btn btn-primary ">+ Add New</a> --}}
+                    <h4>User Management</h4>
+                    <a href="{{ route('users.create') }}" class="btn btn-primary ">+ Add New</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(3)->create();
-        Role::firstOrCreate([
-            'name'=>'patient',
-            'guard_name'=>'web',
-        ]);
+        User::factory(3)->create();
+        // Role::firstOrCreate([
+        //     'name'=>'patient',
+        //     'guard_name'=>'web',
+        // ]);
         // Role::firstOrCreate([
         //     'name'=>'doctor',
         //     'guard_name'=>'web',

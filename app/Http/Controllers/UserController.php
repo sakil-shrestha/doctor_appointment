@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -32,7 +34,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles=Role::orderBy('name','asc')->get();
+        return view('user.create',compact('roles'));
     }
 
     /**
@@ -40,7 +43,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'name'=>'required|min:5',
+            'email'=>'required|email|unique:users|min:6',
+            'password'=>'required|min:6'
+        ]);
+
+        if($validator->passes())
+            {
+                $user=new User();
+                $user->name=$request->name;
+                $user->email=$request->email;
+                $user->password=Hash::make($request->password);
+                $user->save();
+
+                foreach($request->role as $role)
+                    {
+
+                        $user->assignRole($role);
+                    }
+
+                    return redirect()->route('users.index')->with('success',"Users created succesfully");
+            }
+
+            return redirect()->route('users.create')->withErrors($validator)->withInput();
     }
 
     /**
