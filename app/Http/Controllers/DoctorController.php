@@ -12,15 +12,15 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $doctorExist=Role::where('name','doctor')->exists();
-        if($doctorExist)
-            {
+        $user = Auth::user();
 
-                $doctors = User::role('doctor')->with('doctor')->get();
-            }
-            else{
-                $doctors=collect();
-            }
+        if ($user->hasRole('doctor')) {
+            $doctors = User::with('doctor')->where('id', $user->id)->get();
+        } elseif ($user->hasAnyRole(['admin', 'Super Admin'])) {
+            $doctors = User::role('doctor')->with('doctor')->get();
+        } else {
+            $doctors = collect();
+        }
 
         return view('doctor.index', compact('doctors'));
     }
@@ -69,9 +69,8 @@ class DoctorController extends Controller
 
         if (!$user->doctor) {
             $doctor = Doctor::create(['user_id' => $id]);
-        }
-        else{
-            $doctor=$user->doctor;
+        } else {
+            $doctor = $user->doctor;
         }
 
         return view('doctor.edit', compact('doctor'));
@@ -105,7 +104,7 @@ class DoctorController extends Controller
 
     public function destroy($id)
     {
-        $user=User::with('doctor')->find($id);
+        $user = User::with('doctor')->find($id);
 
         $user->delete();
         return redirect()->route('doctor.index')->with('success', 'Doctor Profile deleted successfully');

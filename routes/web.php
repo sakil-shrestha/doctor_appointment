@@ -23,7 +23,7 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware('role:admin|Super Admin')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware('role:admin|Super Admin|doctor')->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {

@@ -34,7 +34,19 @@ class AppointmentController extends Controller implements HasMiddleware
     }
     public function index()
     {
-        $appointments = Appointment::all();
+
+        $user = Auth::user();
+        $doctor=$user->doctor;
+
+
+        $appointments = collect(); // default empty collection
+
+        if ($user->hasRole('doctor')) {
+            $appointments = Appointment::where('doctor_id', $doctor->id)->get();
+        } elseif ($user->hasAnyRole(['admin', 'Super Admin'])) {
+            $appointments = Appointment::all();
+        }
+
         return view('appointment.index', compact('appointments'));
     }
 

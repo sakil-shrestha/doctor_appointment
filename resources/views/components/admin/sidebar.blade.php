@@ -34,10 +34,12 @@
             </li>
             @endcan
 
-
             <li class="{{Route::is('users.*')? 'active': ''}}">
                 <a href="{{route('users.index')}}" class="nav-link "><i data-feather="users"></i><span>Users</span></a>
             </li>
+
+
+              <li class="menu-header">Management</li>
             <li>
                 <a href="#" class="nav-link"><i data-feather="coffee"></i><span>Medicine</span></a>
             </li>
@@ -55,18 +57,18 @@
             </li>
 
 
-            {{-- @can('view role') --}}
+            @can('view role')
             <li class="{{Route::is('roles.*')? 'active': ''}}">
                 <a href="{{route('roles.index')}}" class="nav-link"><i data-feather="settings"></i><span>Roles</span></a>
             </li>
-            {{-- @endcan --}}
+            @endcan
 
-            {{-- @can('view permission') --}}
+            @can('view permission')
 
             <li class="{{Route::is('permissions.*')? 'active': ''}}">
                 <a href="{{route('permissions.index')}}" class="nav-link"><i data-feather="settings"></i><span>Permission</span></a>
             </li>
-            {{-- @endcan --}}
+            @endcan
 
             <li class="{{Route::is('profile.*')? 'active': ''}}">
                 <a href="{{route('profile.edit')}}" class="nav-link "><i data-feather="user"></i><span>Profile Management</span></a>
