@@ -21,8 +21,10 @@ class DoctorController extends Controller
         } else {
             $doctors = collect();
         }
-
+        // return response()->json($doctors);
         return view('doctor.index', compact('doctors'));
+
+
     }
 
     public function create()
@@ -109,4 +111,6 @@ class DoctorController extends Controller
         $user->delete();
         return redirect()->route('doctor.index')->with('success', 'Doctor Profile deleted successfully');
     }
+
+
 }
