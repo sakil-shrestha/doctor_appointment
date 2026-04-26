@@ -6,6 +6,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PermissionController;
@@ -120,3 +121,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
     });
 });
+
+// login with google controller
+Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
