@@ -87,8 +87,9 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{id}', [DoctorController::class, 'edit'])->name('doctor.edit');
         Route::put('update/{id}', [DoctorController::class, 'update'])->name('doctor.update');
         Route::delete('delete/{id}', [DoctorController::class, 'destroy'])->name('doctor.destroy');
-        // Route::delete('search', [DoctorController::class, 'search'])->name('doctor.search');
-    });
+        // Route::get('search', [DoctorController::class, 'search'])->name('doctor.search');
+
+        });
 
     // schedule routes
     Route::prefix('schedule')->group(function () {

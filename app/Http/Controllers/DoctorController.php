@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\doctorValidate;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,8 +11,9 @@ use Spatie\Permission\Models\Role;
 
 class DoctorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // $search = $request->search;
         $user = Auth::user();
 
         if ($user->hasRole('doctor')) {
@@ -21,10 +23,23 @@ class DoctorController extends Controller
         } else {
             $doctors = collect();
         }
+
+
+        // for searching
+        // $doctors=User::with('doctor')->get();
+        // if($search)
+        //     {
+
+        //         $doctors=User::with('doctor')->where('name','LIKE','%'.$search.'%')
+        //         ->orWhere('email','LIKE','%'.$search.'%')
+
+        //         ->get();
+
+
+
+        //     }
         // return response()->json($doctors);
         return view('doctor.index', compact('doctors'));
-
-
     }
 
     public function create()
@@ -32,14 +47,14 @@ class DoctorController extends Controller
         return view('doctor.create');
     }
 
-    public function store(Request $request)
+    public function store(doctorValidate $request)
     {
-        $request->validate([
-            'specialization' => 'required',
-            'bio' => 'required',
-            'experience_year' => 'required|integer',
-            'contact' => ['required', 'regex:/^(98|97)\d{8}$/'],
-        ]);
+        // $request->validate([
+        //     'specialization' => 'required',
+        //     'bio' => 'required',
+        //     'experience_year' => 'required|integer',
+        //     'contact' => ['required', 'regex:/^(98|97)\d{8}$/'],
+        // ]);
 
         // $doctor=Doctor::Create([
         //     'contact'= $request->contact,
@@ -112,5 +127,22 @@ class DoctorController extends Controller
         return redirect()->route('doctor.index')->with('success', 'Doctor Profile deleted successfully');
     }
 
+    // public function search(Request $request)
+    // {
+    //     $query = User::with('doctor')->whereHas('doctor');
 
+    //     if ($request->name) {
+    //         $query->where('name', 'LIKE', '%' . $request->name . '%');
+    //     }
+
+    //     if ($request->specialization) {
+    //         $query->whereHas('doctor', function ($q) use ($request) {
+    //             $q->where('specialization', $request->specialization);
+    //         });
+    //     }
+
+    //     $doctors = $query->get();
+
+    //     return view('frontend.home', compact('doctors'));
+    // }
 }

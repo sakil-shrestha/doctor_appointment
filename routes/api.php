@@ -14,4 +14,4 @@ Route::get('/test',function(){
     return response()->json($doctor);
 });
 
-Route::get('doctor', [DoctorController::class, 'index'])->name('doctor.index');
+

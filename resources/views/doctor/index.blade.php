@@ -1,10 +1,26 @@
 <x-layout.admin>
 
+    <style>
+        .search-form{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            gap:8px;
+            width:50%;
+
+
+        }
+    </style>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
                     <h4>Doctor Management</h4>
+                    <form action="{{route('doctor.index')}}" class="search-form">
+                        <input class="form-control" type="text" name="search" placeholder="search by name or category">
+
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
                     @can('create doctor')
                     <a href="{{ route('doctor.create') }}" class="btn btn-primary ">+ Add New</a>
                     @endcan

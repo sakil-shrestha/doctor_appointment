@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Services\AppointmentService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AppointmentController extends Controller implements HasMiddleware
 {
+    protected $appointmentService;
 
     public static function middleware(): array
     {
@@ -31,6 +33,18 @@ class AppointmentController extends Controller implements HasMiddleware
             new Middleware('permission:delete appointment', only: ['destroy']),
 
         ];
+    }
+
+    // using service
+    public function __construct(AppointmentService $appointmentService)
+    {
+        $this->appointmentService=$appointmentService;
+    }
+
+    public function getSlots(Request $request)
+    {
+        $slots=$this->appointmentService->getSlots($request->date,$request->doctor_id);
+        return response()->json($slots);
     }
     public function index()
     {
@@ -52,49 +66,49 @@ class AppointmentController extends Controller implements HasMiddleware
 
 
     //  1. GET SLOTS
-    public function getSlots(Request $request)
-    {
-        $date = $request->date;
-        $doctorId = $request->doctor_id;
+    // public function getSlots(Request $request)
+    // {
+    //     $date = $request->date;
+    //     $doctorId = $request->doctor_id;
 
 
 
 
 
-        // Convert date → day (Mon, Tue, etc.)
-        $day = Carbon::parse($date)->format('D');
+    //     // Convert date → day (Mon, Tue, etc.)
+    //     $day = Carbon::parse($date)->format('D');
 
-        // Find doctor schedule
-        $schedule = Schedule::where('doctor_id', $doctorId)
-            ->where('day', $day)
-            ->first();
+    //     // Find doctor schedule
+    //     $schedule = Schedule::where('doctor_id', $doctorId)
+    //         ->where('day', $day)
+    //         ->first();
 
-        if (!$schedule) {
-            return response()->json([]);
-        }
+    //     if (!$schedule) {
+    //         return response()->json([]);
+    //     }
 
-        // Generate slots (30 min)
-        $start = Carbon::parse($schedule->start_time);
-        $end = Carbon::parse($schedule->end_time);
+    //     // Generate slots (30 min)
+    //     $start = Carbon::parse($schedule->start_time);
+    //     $end = Carbon::parse($schedule->end_time);
 
-        $period = CarbonPeriod::create($start, '30 minutes', $end->subMinutes(30));
+    //     $period = CarbonPeriod::create($start, '30 minutes', $end->subMinutes(30));
 
-        $slots = [];
+    //     $slots = [];
 
-        foreach ($period as $time) {
-            $slots[] = $time->format('H:i:s');
-        }
+    //     foreach ($period as $time) {
+    //         $slots[] = $time->format('H:i:s');
+    //     }
 
-        // Remove already booked slots
-        $booked = Appointment::where('doctor_id', $doctorId)
-            ->where('appointment_date', $date)
-            ->pluck('appointment_time')
-            ->toArray();
+    //     // Remove already booked slots
+    //     $booked = Appointment::where('doctor_id', $doctorId)
+    //         ->where('appointment_date', $date)
+    //         ->pluck('appointment_time')
+    //         ->toArray();
 
-        $availableSlots = array_values(array_diff($slots, $booked));
+    //     $availableSlots = array_values(array_diff($slots, $booked));
 
-        return response()->json($availableSlots);
-    }
+    //     return response()->json($availableSlots);
+    // }
 
     // 2. STORE APPOINTMENT
     public function store(Request $request)

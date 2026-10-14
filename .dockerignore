@@ -1,0 +1,7 @@
+.env
+.git
+.env.*
+node_modules
+dist
+public/build
+storage/logs/*

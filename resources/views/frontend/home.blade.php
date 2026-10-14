@@ -14,6 +14,10 @@
             font-family: 'DM Sans', sans-serif
         }
 
+        #chatBox {
+            animation: scaleUp .3s ease;
+        }
+
         /* ── keyframes ── */
         @keyframes fadeUp {
             from {
@@ -1070,6 +1074,45 @@
 
     </div>
 
+
+
+    {{-- ************chat bots************** --}}
+    <!-- ═════════ CHATBOT ═════════ -->
+    <div id="chatbot" class="fixed bottom-6 right-6 z-50">
+
+        <!-- Chat Button -->
+        <button id="chatToggle"
+            class="w-14 h-14 rounded-full bg-emerald-600 text-white shadow-xl flex items-center justify-center hover:scale-110 transition">
+            💬
+        </button>
+
+        <!-- Chat Box -->
+        <div id="chatBox"
+            class="hidden mt-4 w-80 bg-white/90 backdrop-blur-xl border border-emerald-100 rounded-2xl shadow-2xl overflow-hidden">
+
+            <!-- Header -->
+            <div class="bg-emerald-600 text-white px-4 py-3 flex justify-between items-center">
+                <span class="font-semibold text-sm">Clinic Assistant</span>
+                <button onclick="toggleChat()">✕</button>
+            </div>
+
+            <!-- Messages -->
+            <div id="chatMessages" class="h-80 overflow-y-auto p-4 space-y-3 text-sm">
+                <div class="bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl w-fit">
+                    👋 Hi! How can I help you today?
+                </div>
+            </div>
+
+            <!-- Input -->
+            <div class="border-t border-gray-100 flex">
+                <input id="chatInput" type="text" placeholder="Type your message..."
+                    class="flex-1 px-3 py-2 text-sm focus:outline-none">
+                <button onclick="sendMessage()" class="px-4 bg-emerald-600 text-white text-sm">Send</button>
+            </div>
+
+        </div>
+    </div>
+
     <script>
         // Scroll reveal
         const observer = new IntersectionObserver(entries => {
@@ -1084,6 +1127,56 @@
         });
 
         document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => observer.observe(el));
+
+
+        // chatbots js
+        const chatBox = document.getElementById('chatBox');
+
+        function toggleChat() {
+            chatBox.classList.toggle('hidden');
+        }
+
+        document.getElementById('chatToggle').addEventListener('click', toggleChat);
+
+        function sendMessage() {
+            let input = document.getElementById('chatInput');
+            let msg = input.value.trim();
+            if (!msg) return;
+
+            let messages = document.getElementById('chatMessages');
+
+            // user message
+            let userMsg = document.createElement('div');
+            userMsg.className =
+                "bg-gray-100 text-gray-800 px-3 py-2 rounded-xl ml-auto w-fit";
+            userMsg.innerText = msg;
+            messages.appendChild(userMsg);
+
+            input.value = "";
+
+            // bot reply (simple logic)
+            setTimeout(() => {
+                let botMsg = document.createElement('div');
+                botMsg.className =
+                    "bg-emerald-100 text-emerald-800 px-3 py-2 rounded-xl w-fit";
+
+                botMsg.innerText = getBotReply(msg);
+                messages.appendChild(botMsg);
+
+                messages.scrollTop = messages.scrollHeight;
+            }, 500);
+        }
+
+        function getBotReply(msg) {
+            msg = msg.toLowerCase();
+
+            if (msg.includes('doctor')) return "You can search doctors in the section above 👨‍⚕️";
+            if (msg.includes('appointment')) return "Click on 'Book Now' to schedule an appointment 📅";
+            if (msg.includes('hello')) return "Hello 👋 How can I assist you?";
+            if (msg.includes('price')) return "Consultation fees depend on the doctor.";
+
+            return "I'm here to help! Try asking about doctors or appointments 😊";
+        }
     </script>
 
 </x-layout.frontend>
