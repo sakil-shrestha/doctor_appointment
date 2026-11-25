@@ -4,11 +4,15 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +24,8 @@ Route::get('/', function () {
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware('role:admin|Super Admin|doctor')->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,7 +36,34 @@ Route::middleware('auth')->group(function () {
     Route::post('/get-slots', [AppointmentController::class, 'getSlots']);
     Route::post('/book', [AppointmentController::class, 'store'])->name('appointment.store');
     Route::patch('/appointments/{id}/status', [AppointmentController::class, 'updateStatus']);
-    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+
+
+    // *******permissions*********
+    Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions.index');
+    Route::get('/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+    Route::post('/permissions/store', [PermissionController::class, 'store'])->name('permissions.store');
+    Route::get('/permissions/{id}/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::put('/permissions/{id}', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::delete('/permissions/{id}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+
+
+    // *******roles*********
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+    Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+    Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
+    Route::get('/roles/{id}/edit', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::put('/roles/{id}', [RolesController::class, 'update'])->name('roles.update');
+    Route::delete('/roles/{id}', [RolesController::class, 'destroy'])->name('roles.destroy');
+
+
+    // *******users*********
+    Route::get('users/index',[UserController::class,'index'])->name('users.index');
+    Route::get('users/create',[UserController::class,'create'])->name('users.create');
+    Route::post('users/store',[UserController::class,'store'])->name('users.store');
+    Route::get('users/edit/{id}',[UserController::class,'edit'])->name('users.edit');
+    Route::put('users/update/{id}',[UserController::class,'update'])->name('users.update');
+    Route::delete('users/destroy/{id}',[UserController::class,'destroy'])->name('users.destroy');
 });
 
 require __DIR__ . '/auth.php';
@@ -54,7 +87,9 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{id}', [DoctorController::class, 'edit'])->name('doctor.edit');
         Route::put('update/{id}', [DoctorController::class, 'update'])->name('doctor.update');
         Route::delete('delete/{id}', [DoctorController::class, 'destroy'])->name('doctor.destroy');
-    });
+        // Route::get('search', [DoctorController::class, 'search'])->name('doctor.search');
+
+        });
 
     // schedule routes
     Route::prefix('schedule')->group(function () {
@@ -87,3 +122,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('delete/{id}', [AppointmentController::class, 'destroy'])->name('appointment.destroy');
     });
 });
+
+// login with google controller
+Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');

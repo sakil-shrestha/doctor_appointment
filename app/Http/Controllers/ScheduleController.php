@@ -5,27 +5,54 @@ namespace App\Http\Controllers;
 use App\Models\Doctor;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 
-class ScheduleController extends Controller
+class ScheduleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+
+            new Middleware('permission:view appointment', only: ['index']),
+            new Middleware('permission:create appointment', only: ['create']),
+            new Middleware('permission:edit appointment', only: ['edit']),
+            new Middleware('permission:delete appointment', only: ['destroy']),
+
+        ];
+    }
     public function index()
     {
-        $schedules=Schedule::with('doctor.user')->get();
+        $user = Auth::user();
+        $doctor = $user->doctor;
+
+
+        $schedules = collect(); // default empty collection
+
+
+        if ($user->hasRole('doctor')) {
+            $schedules=Schedule::with('doctor.user')->where('doctor_id',$doctor->id)->get();
+
+        } elseif ($user->hasAnyRole(['admin', 'Super Admin'])) {
+            $schedules = Schedule::with('doctor.user')->get();
+        }
+
         return view('schedule.index', compact('schedules'));
     }
     public function create()
     {
-        $doctors=Doctor::with('user')->get();
+        $doctors = Doctor::with('user')->get();
         return view('schedule.create', compact('doctors'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'doctor_id'=>'required',
-            'week_day'=>'required',
-            'start_time'=>'required',
-            'end_time'=>'required',
+            'doctor_id' => 'required',
+            'week_day' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
 
         $schedule = new Schedule();
@@ -40,17 +67,17 @@ class ScheduleController extends Controller
 
     public function edit($id)
     {
-        $schedule=Schedule::findOrFail($id);
-        $doctors=Doctor::with('user')->get();
-        return view('schedule.edit', compact('schedule','doctors'));
+        $schedule = Schedule::findOrFail($id);
+        $doctors = Doctor::with('user')->get();
+        return view('schedule.edit', compact('schedule', 'doctors'));
     }
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'doctor_id'=>'required',
-            'week_day'=>'required',
-            'start_time'=>'required',
-            'end_time'=>'required',
+            'doctor_id' => 'required',
+            'week_day' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
         ]);
 
         $schedule = Schedule::findOrFail($id);
@@ -64,7 +91,7 @@ class ScheduleController extends Controller
     }
     public function destroy($id)
     {
-        $schedule=Schedule::findOrFail($id);
+        $schedule = Schedule::findOrFail($id);
         $schedule->delete();
         return redirect()->route('schedule.index')->with('success', 'Schedule deleted successfully.');
     }

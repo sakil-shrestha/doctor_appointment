@@ -4,8 +4,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
+                    <h4>Appointment Information</h4>
+                    @can('create appointment')
                     <a href="{{ route('appointment.create') }}" class="btn btn-primary ">+ Add New</a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -65,8 +67,13 @@
 
                                         </td>
                                         <td>
+                                            @can('edit appointment')
                                             <a href="{{ route('appointment.edit', $appointment->id) }}"
                                                 class="btn btn-primary">Edit</a>
+                                                @endcan
+
+                                            @can('delete appointment')
+
                                             <form action="{{ route('appointment.destroy', $appointment->id) }}"
                                                 method='POST' style="display: inline;">
                                                 @csrf
@@ -74,6 +81,7 @@
                                                 <button type="submit" class="btn btn-danger"
                                                     onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

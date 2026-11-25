@@ -1,11 +1,30 @@
 <x-layout.admin>
 
+    <style>
+        .search-form{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            gap:8px;
+            width:50%;
+
+
+        }
+    </style>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header flex justify-content-between">
-                    <h4>Multi Select</h4>
+                    <h4>Doctor Management</h4>
+                    <form action="{{route('doctor.index')}}" class="search-form">
+                        <input class="form-control" type="text" name="search" placeholder="search by name or category">
+
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                    @can('create doctor')
                     <a href="{{ route('doctor.create') }}" class="btn btn-primary ">+ Add New</a>
+                    @endcan
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -58,12 +77,16 @@
                                             <div class="badge badge-success badge-shadow">{{ $user->doctor?->status ?? 'N/A' }}</div>
                                         </td>
                                         <td>
+                                            @can('edit doctor')
                                             <a href="{{route('doctor.edit',$user->id)}}" class="btn btn-primary">Edit</a>
+                                            @endcan
+                                                @can('delete doctor')
                                             <form action="{{route('doctor.destroy',$user->id)}}" method='POST' style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
 
